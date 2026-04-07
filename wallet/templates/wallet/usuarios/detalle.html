@@ -1,4 +1,5 @@
 {% extends "wallet/base.html" %}
+{% load wallet_filters %}
 {% block title %}{{ usuario }} — Alke Wallet{% endblock %}
 
 {% block content %}
@@ -33,7 +34,7 @@
             {% for cuenta in usuario.cuentas.all %}
                 <div class="border rounded p-3 mb-2">
                     <strong>{{ cuenta.numero_cuenta }}</strong> — {{ cuenta.get_tipo_display }}<br>
-                    <span class="text-muted">Saldo: ${{ cuenta.saldo }}</span>
+                    <span class="text-muted">Saldo: {{ cuenta.saldo|pesos }}</span>
                     <a href="{% url 'cuenta_detalle' cuenta.pk %}" class="btn btn-sm btn-outline-primary ms-2">Ver</a>
                 </div>
             {% empty %}

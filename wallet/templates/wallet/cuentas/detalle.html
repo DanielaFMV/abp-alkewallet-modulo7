@@ -1,4 +1,5 @@
 {% extends "wallet/base.html" %}
+{% load wallet_filters %}
 {% block title %}Cuenta {{ cuenta.numero_cuenta }} — Alke Wallet{% endblock %}
 
 {% block content %}
@@ -16,7 +17,7 @@
             <h5 class="fw-bold mb-3">Información de la Cuenta</h5>
             <p><strong>Titular:</strong> <a href="{% url 'usuario_detalle' cuenta.usuario.pk %}">{{ cuenta.usuario }}</a></p>
             <p><strong>Tipo:</strong> {{ cuenta.get_tipo_display }}</p>
-            <p><strong>Saldo:</strong> ${{ cuenta.saldo }}</p>
+            <p><strong>Saldo:</strong> {{ cuenta.saldo|pesos }}</p>
             <p><strong>Estado:</strong>
                 {% if cuenta.activa %}
                     <span class="badge bg-success">Activa</span>
@@ -47,7 +48,7 @@
                         {% for t in transacciones %}
                         <tr>
                             <td>{{ t.get_tipo_display }}</td>
-                            <td>${{ t.monto }}</td>
+                            <td>{{ t.monto|pesos }}</td>
                             <td>{{ t.fecha|date:"d/m/Y" }}</td>
                         </tr>
                         {% endfor %}

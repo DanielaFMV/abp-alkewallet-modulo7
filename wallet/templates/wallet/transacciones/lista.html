@@ -1,4 +1,5 @@
 {% extends "wallet/base.html" %}
+{% load wallet_filters %}
 {% block title %}Transacciones — Alke Wallet{% endblock %}
 
 {% block content %}
@@ -40,7 +41,7 @@
                     </td>
                     <td>{{ t.cuenta_origen.numero_cuenta }}</td>
                     <td>{{ t.cuenta_destino.numero_cuenta|default:"—" }}</td>
-                    <td>${{ t.monto }}</td>
+                    <td>{{ t.monto|pesos }}</td>
                     <td>{{ t.descripcion|default:"—" }}</td>
                     <td>{{ t.fecha|date:"d/m/Y H:i" }}</td>
                     <td>

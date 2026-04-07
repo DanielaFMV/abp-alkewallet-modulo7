@@ -1,4 +1,5 @@
 {% extends "wallet/base.html" %}
+{% load wallet_filters %}
 {% block title %}Eliminar Transacción — Alke Wallet{% endblock %}
 
 {% block content %}
@@ -9,7 +10,7 @@
             <p>¿Estás segura de que quieres eliminar esta transacción?</p>
             <ul class="list-unstyled text-muted">
                 <li><strong>Tipo:</strong> {{ transaccion.get_tipo_display }}</li>
-                <li><strong>Monto:</strong> ${{ transaccion.monto }}</li>
+                <li><strong>Monto:</strong> {{ transaccion.monto|pesos }}</li>
                 <li><strong>Fecha:</strong> {{ transaccion.fecha|date:"d/m/Y H:i" }}</li>
             </ul>
             <form method="post">

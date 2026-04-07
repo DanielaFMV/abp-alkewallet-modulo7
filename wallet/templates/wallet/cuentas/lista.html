@@ -1,4 +1,5 @@
 {% extends "wallet/base.html" %}
+{% load wallet_filters %}
 {% block title %}Cuentas — Alke Wallet{% endblock %}
 
 {% block content %}
@@ -26,7 +27,7 @@
                     <td>{{ cuenta.numero_cuenta }}</td>
                     <td>{{ cuenta.usuario }}</td>
                     <td>{{ cuenta.get_tipo_display }}</td>
-                    <td>${{ cuenta.saldo }}</td>
+                    <td>{{ cuenta.saldo|pesos }}</td>
                     <td>
                         {% if cuenta.activa %}
                             <span class="badge bg-success">Activa</span>

@@ -1,4 +1,5 @@
 {% extends "wallet/base.html" %}
+{% load wallet_filters %}
 {% block title %}Inicio — Alke Wallet{% endblock %}
 
 {% block content %}
@@ -65,7 +66,7 @@
                 <tr>
                     <td>{{ t.get_tipo_display }}</td>
                     <td>{{ t.cuenta_origen.numero_cuenta }}</td>
-                    <td>${{ t.monto }}</td>
+                    <td>{{ t.monto|pesos }}</td>
                     <td>{{ t.fecha|date:"d/m/Y H:i" }}</td>
                 </tr>
                 {% endfor %}
