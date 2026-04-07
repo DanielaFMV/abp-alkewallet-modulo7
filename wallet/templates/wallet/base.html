@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Alke Wallet{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f4f8; }
+        .navbar { background-color: #1a1a2e; }
+        .navbar-brand { color: #e94560 !important; font-weight: bold; font-size: 1.4rem; }
+        .nav-link { color: #ccc !important; }
+        .nav-link:hover { color: #e94560 !important; }
+        .card { border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .btn-primary { background-color: #e94560; border-color: #e94560; }
+        .btn-primary:hover { background-color: #c73652; border-color: #c73652; }
+        .stat-card { border-left: 4px solid #e94560; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio' %}">💳 Alke Wallet</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'usuario_lista' %}">Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'cuenta_lista' %}">Cuentas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'transaccion_lista' %}">Transacciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'transaccion_buscar' %}">Buscar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

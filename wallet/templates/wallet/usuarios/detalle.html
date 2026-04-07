@@ -1,0 +1,46 @@
+{% extends "wallet/base.html" %}
+{% block title %}{{ usuario }} — Alke Wallet{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">{{ usuario }}</h2>
+    <div>
+        <a href="{% url 'usuario_editar' usuario.pk %}" class="btn btn-primary">Editar</a>
+        <a href="{% url 'usuario_lista' %}" class="btn btn-outline-secondary ms-2">Volver</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3">Información Personal</h5>
+            <p><strong>RUT:</strong> {{ usuario.rut }}</p>
+            <p><strong>Email:</strong> {{ usuario.email }}</p>
+            <p><strong>Estado:</strong>
+                {% if usuario.activo %}
+                    <span class="badge bg-success">Activo</span>
+                {% else %}
+                    <span class="badge bg-secondary">Inactivo</span>
+                {% endif %}
+            </p>
+            <p><strong>Fecha de registro:</strong> {{ usuario.fecha_registro|date:"d/m/Y H:i" }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3">Cuentas Asociadas</h5>
+            {% for cuenta in usuario.cuentas.all %}
+                <div class="border rounded p-3 mb-2">
+                    <strong>{{ cuenta.numero_cuenta }}</strong> — {{ cuenta.get_tipo_display }}<br>
+                    <span class="text-muted">Saldo: ${{ cuenta.saldo }}</span>
+                    <a href="{% url 'cuenta_detalle' cuenta.pk %}" class="btn btn-sm btn-outline-primary ms-2">Ver</a>
+                </div>
+            {% empty %}
+                <p class="text-muted">Este usuario no tiene cuentas.</p>
+            {% endfor %}
+            <a href="{% url 'cuenta_crear' %}" class="btn btn-sm btn-primary mt-2">+ Nueva Cuenta</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

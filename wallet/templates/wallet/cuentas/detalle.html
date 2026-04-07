@@ -1,0 +1,62 @@
+{% extends "wallet/base.html" %}
+{% block title %}Cuenta {{ cuenta.numero_cuenta }} — Alke Wallet{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Cuenta {{ cuenta.numero_cuenta }}</h2>
+    <div>
+        <a href="{% url 'cuenta_editar' cuenta.pk %}" class="btn btn-primary">Editar</a>
+        <a href="{% url 'cuenta_lista' %}" class="btn btn-outline-secondary ms-2">Volver</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3">Información de la Cuenta</h5>
+            <p><strong>Titular:</strong> <a href="{% url 'usuario_detalle' cuenta.usuario.pk %}">{{ cuenta.usuario }}</a></p>
+            <p><strong>Tipo:</strong> {{ cuenta.get_tipo_display }}</p>
+            <p><strong>Saldo:</strong> ${{ cuenta.saldo }}</p>
+            <p><strong>Estado:</strong>
+                {% if cuenta.activa %}
+                    <span class="badge bg-success">Activa</span>
+                {% else %}
+                    <span class="badge bg-secondary">Inactiva</span>
+                {% endif %}
+            </p>
+            <p><strong>Creada:</strong> {{ cuenta.fecha_creacion|date:"d/m/Y" }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0">Últimas Transacciones</h5>
+                <a href="{% url 'transaccion_crear' %}" class="btn btn-sm btn-primary">+ Nueva</a>
+            </div>
+            {% if transacciones %}
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Monto</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in transacciones %}
+                        <tr>
+                            <td>{{ t.get_tipo_display }}</td>
+                            <td>${{ t.monto }}</td>
+                            <td>{{ t.fecha|date:"d/m/Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">Sin transacciones registradas.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

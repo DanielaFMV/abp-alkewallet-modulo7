@@ -1,0 +1,59 @@
+{% extends "wallet/base.html" %}
+{% block title %}Transacciones — Alke Wallet{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Transacciones</h2>
+    <div>
+        <a href="{% url 'transaccion_buscar' %}" class="btn btn-outline-secondary me-2">Buscar</a>
+        <a href="{% url 'transaccion_crear' %}" class="btn btn-primary">+ Nueva Transacción</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Tipo</th>
+                    <th>Cuenta Origen</th>
+                    <th>Cuenta Destino</th>
+                    <th>Monto</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transacciones %}
+                <tr>
+                    <td>{{ t.pk }}</td>
+                    <td>
+                        {% if t.tipo == "deposito" %}
+                            <span class="badge bg-success">{{ t.get_tipo_display }}</span>
+                        {% elif t.tipo == "retiro" %}
+                            <span class="badge bg-danger">{{ t.get_tipo_display }}</span>
+                        {% else %}
+                            <span class="badge bg-primary">{{ t.get_tipo_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ t.cuenta_origen.numero_cuenta }}</td>
+                    <td>{{ t.cuenta_destino.numero_cuenta|default:"—" }}</td>
+                    <td>${{ t.monto }}</td>
+                    <td>{{ t.descripcion|default:"—" }}</td>
+                    <td>{{ t.fecha|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'transaccion_eliminar' t.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-4">No hay transacciones registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
